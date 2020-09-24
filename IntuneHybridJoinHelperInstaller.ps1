@@ -39,7 +39,7 @@ If ((Test-Path -Path $GPCachePath) -eq $false) {
 #Create script folder
 New-Item -Type Directory -Path $ScriptPath -Force
 
-#Remove 'Authenticated Users' from folder permissions to prevent malicious code execute in LOCAL SYSTEM context
+#Remove 'Authenticated Users' from folder permissions to prevent malicious code from being executed in LOCAL SYSTEM context
 $FolderAcl = Get-Acl -Path $ScriptPath
 $FolderAcl.SetAccessRuleProtection($true, $true)
 Set-Acl -Path $ScriptPath -AclObject $FolderAcl
@@ -49,7 +49,7 @@ $FolderAcl.Access | Where {$_.IdentityReference -eq 'NT AUTHORITY\Authenticated 
 }
 Set-Acl -Path $ScriptPath -AclObject $FolderAcl
 
-#Create 'IntuneHybridJoinHelper.ps1' for scheduled task
+#Create 'IntuneHybridJoinHelper.ps1' script for scheduled task
 $ScriptPayload | Out-File -FilePath "$ScriptPath\$ScriptName.ps1" -Force
 
 #Create 'IntuneHybridJoinHelper' scheduled task 
